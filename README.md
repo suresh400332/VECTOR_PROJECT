@@ -63,4 +63,32 @@ A distributed embedded system that mimics how modern vehicles use **CAN bus** fo
 - **Proteus** *(Optional)* – Circuit simulation
 - **GitHub** – Version control and project tracking
 
+- PROJECT_ROOT/
+├── INDICATOR_NODE/
+│ ├── INDICATOR_NODE.c ← switch‑to‑CAN logic
+│ ├── can.c
+│ ├── can.h
+│ └── can_defines.h
+
+├── FUEL_NODE/
+│ ├── FUEL_NODE.c ← ADC‑to‑CAN logic
+│ ├── adc.c
+│ ├── adc_defines.h
+│ ├── can.c
+│ ├── can.h
+│ └── can_defines.h
+
+└── MAIN_NODE/
+├── MAIN_NODE.c ← CAN receive + display & LED logic
+├── lcd.c
+├── lcd.h
+├── lcd_defines.h
+├── i2c.c
+├── i2c.h
+├── i2c_defines.h
+├── can.c
+├── can.h
+└── can_defines.h
+
+
 ---
