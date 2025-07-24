@@ -1,93 +1,135 @@
-# FINAL_PROJECT
+# 🚘 VECTOR_MAJOR_PROJECT
 
-## 🚘 Real-Time Vehicle Status Monitoring System using CAN Protocol (LPC2129)
+## 💡 Real-Time Vehicle Status Monitoring System using CAN Protocol (LPC2129)
 
-A microcontroller-based vehicle monitoring solution built on the **CAN (Controller Area Network) protocol**, designed to enhance vehicle safety, diagnostics, and modular communication between embedded nodes. Developed using the **LPC2129 ARM7 microcontroller**, this system simulates real-time interaction between distributed nodes for **indicators**, **fuel sensing**, and **central status display**.
+This project demonstrates a distributed embedded system for monitoring real-time vehicle status using the **Controller Area Network (CAN)** protocol. It simulates communication between three embedded nodes:
 
-> 💡 Designed for embedded system enthusiasts and automotive R&D projects.
+- **Main Node**: Central status display
+- **Indicator Node**: Directional indicator control
+- **Fuel Node**: Fuel level sensing
 
----
-
-## 🔍 What is This Project?
-
-A distributed embedded system that mimics how modern vehicles use **CAN bus** for seamless data exchange between various control units (like indicators, fuel sensors, etc.). This project demonstrates:
-
-- **Multi-node communication over CAN**
-- Real-time monitoring and status display
-- Modular embedded software architecture
-- Practical use of ARM7 microcontroller (LPC2129)
+Built using the **LPC2129 (ARM7)** microcontroller and **MCP2551 CAN transceivers**, this system mimics how real vehicles share sensor/control data over a reliable CAN bus.
 
 ---
 
-## 🧩 System Architecture
+## 🔧 Key Features
 
-### 📦 Nodes Involved:
-- **Indicator Node**
-  - Detects switch inputs (left/right)
-  - Sends indicator direction over CAN
+- 📡 **Multi-node communication** via CAN protocol  
+- 📊 Real-time fuel level and indicator status monitoring  
+- 📟 LCD-based display at central node  
+- ⚙️ Modular design for embedded systems and automotive use
 
-- **Fuel Node**
+---
+
+## 🧩 System Nodes and Source Code Structure
+
+### 🟢 1. Main Node
+
+> Receives CAN data from other nodes and displays status on LCD.
+
+- ✅ **Functionality**:
+  - Receives messages from Indicator and Fuel Nodes
+  - Displays direction and fuel level on 16x2 LCD
+
+- 📁 **Files**:
+  - `main_node.c` – CAN receive + LCD update logic
+  - `lcd.c`, `lcd.h` – LCD display handling
+  - `can.c`, `can.h` – CAN initialization and handling
+  - `delay.c`, `delay.h` – Timing functions
+  - `types.h` – Custom data types
+
+---
+
+### 🟡 2. Indicator Node
+
+> Detects button presses for Left/Right indicators and sends status over CAN.
+
+- ✅ **Functionality**:
+  - Detects external switch interrupts (Left/Right)
+  - Sends CAN frame with direction info
+
+- 📁 **Files**:
+  - `indicator_node.c` – Interrupt-based switch logic
+  - `can.c`, `can.h` – CAN transmission
+  - `delay.c`, `delay.h` – Delay utilities
+  - `types.h` – Custom types
+
+---
+
+### 🔵 3. Fuel Node
+
+> Reads analog fuel sensor input using ADC and transmits value over CAN.
+
+- ✅ **Functionality**:
   - Reads analog fuel level via ADC
-  - Transmits fuel data via CAN
+  - Sends value via CAN frame
 
-- **Main Node**
-  - Receives data from all other nodes
-  - Displays status on a 16x2 LCD (fuel + indicators)
-
-### 🔁 Communication Protocol:
-- All nodes communicate using the **CAN protocol**
-- CAN frames carry 8-byte payloads (fuel level, direction, status)
-- **MCP2551** transceiver handles physical layer
+- 📁 **Files**:
+  - `fuel_node.c` – ADC read and CAN send logic
+  - `adc.c`, `adc.h` – ADC setup and read
+  - `can.c`, `can.h` – CAN handling
+  - `delay.c`, `delay.h` – Delay utilities
+  - `types.h` – Common type definitions
 
 ---
 
-## 🔧 Hardware Used
+## 🔁 CAN Communication
 
-| Component        | Description                                        |
-|------------------|----------------------------------------------------|
-| **LPC2129**      | ARM7 microcontroller — core of each node           |
-| **MCP2551**      | CAN transceiver IC                                  |
-| **MMA7660**      | 3-axis accelerometer (for advanced control, optional)|
-| **16x2 LCD**     | Displays status info at Main Node                  |
-| **ADC Input**    | Reads analog fuel sensor values                    |
-| **Switches & LEDs** | For manual indicator simulation and alerts     |
-| **Power Supply** | Regulated 5V DC                                    |
+- All nodes use **CAN1** peripheral on LPC2129
+- CAN frame size: **8 bytes**
+- **CAN Message IDs**:
+  - Indicator Node → `0x100`
+  - Fuel Node → `0x200`
+  - Main Node listens to both
 
 ---
 
-## 🛠 Software & Tools
+## 🔩 Hardware Components
 
-- **Keil µVision** – Code development & compilation
-- **Flash Magic** – Flashing firmware to LPC2129
-- **Embedded C** – Low-level code for microcontroller
-- **Proteus** *(Optional)* – Circuit simulation
-- **GitHub** – Version control and project tracking
+| Component         | Description                                |
+|------------------|--------------------------------------------|
+| **LPC2129**       | ARM7 microcontroller (core of all nodes)   |
+| **MCP2551**       | CAN transceiver IC                         |
+| **16x2 LCD**      | Output display (Main Node)                 |
+| **MMA7660**       | 3-Axis accelerometer (optional)            |
+| **Fuel Sensor**   | Analog signal input (Fuel Node)            |
+| **Switches & LEDs** | Used for indicator simulation           |
+| **Power Supply**  | Regulated 5V DC                            |
 
-- PROJECT_ROOT/
+---
+
+## 🛠 Development Environment
+
+- **Keil µVision** – Code development & debugging  
+- **Flash Magic** – Flashing HEX files to LPC2129  
+- **Embedded C** – Low-level firmware programming  
+- **Proteus** *(optional)* – Circuit simulation  
+- **GitHub** – Version control and collaboration  
+
+---
+
+## 📁 Suggested Folder Structure
+
+```plaintext
+VECTOR_MAJOR_PROJECT/
+├── MAIN_NODE/
+│   ├── main_node.c
+│   ├── lcd.c, lcd.h
+│   ├── can.c, can.h
+│   ├── delay.c, delay.h
+│   └── types.h
+│
 ├── INDICATOR_NODE/
-│ ├── INDICATOR_NODE.c ← switch‑to‑CAN logic
-│ ├── can.c
-│ ├── can.h
-│ └── can_defines.h
-
+│   ├── indicator_node.c
+│   ├── can.c, can.h
+│   ├── delay.c, delay.h
+│   └── types.h
+│
 ├── FUEL_NODE/
-│ ├── FUEL_NODE.c ← ADC‑to‑CAN logic
-│ ├── adc.c
-│ ├── adc_defines.h
-│ ├── can.c
-│ ├── can.h
-│ └── can_defines.h
-
-└── MAIN_NODE/
-├── MAIN_NODE.c ← CAN receive + display & LED logic
-├── lcd.c
-├── lcd.h
-├── lcd_defines.h
-├── i2c.c
-├── i2c.h
-├── i2c_defines.h
-├── can.c
-├── can.h
-└── can_defines.h
+│   ├── fuel_node.c
+│   ├── adc.c, adc.h
+│   ├── can.c, can.h
+│   ├── delay.c, delay.h
+│   └── types.h
 
 
