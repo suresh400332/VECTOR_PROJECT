@@ -17,7 +17,7 @@
 #define GOTO_LINE3_POS0  0X94
 #define GOTO_LINE4_POS0  0XD4
 #define GOTO_CGRAM_START 0x40
-#define LCD_DATA         8
-#define LCD_RS           16
-#define LCD_RW           18
-#define LCD_EN           17
+#define LCD_DATA         4
+#define LCD_RS           12
+#define LCD_RW           15
+#define LCD_EN           13
