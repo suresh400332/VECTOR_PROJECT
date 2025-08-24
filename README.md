@@ -36,9 +36,8 @@ Built using the **LPC2129 (ARM7)** microcontroller and **MCP2551 CAN transceiver
   - `lcd.c`, `lcd.h` – LCD display handling
   - `can.c`, `can.h` – CAN initialization and handling
   - `delay.c`, `delay.h` – Timing functions
-  - `types.h` – Custom data types
-
----
+  - `types.h` – Custom data type
+  - 'i2c.c','i2c.h'- read the sensor data 
 
 ### 🟡 2. Indicator Node
 
